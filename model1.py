@@ -5,6 +5,7 @@ import torch.nn as nn
 import torch.nn.functional as func
 import torch.optim as optim
 
+from matplotlib import pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, MinMaxScaler
 from torch.autograd import Variable
@@ -79,10 +80,13 @@ test_set = torch.utils.data.TensorDataset(test_tensor_X, test_tensor_Y)
 
 train_loader = torch.utils.data.DataLoader(training_set, batch_size=args['batch_size'], shuffle=True, **kwargs)
 test_loader = torch.utils.data.DataLoader(test_set, batch_size=args['test_batch_size'], shuffle=True, **kwargs)
+train_losses = []
+test_losses = []
 
 
 def train(epoch):
     model.train()
+    final_loss = 0
     for batch_idx, (data, target) in enumerate(train_loader):
         if args['cuda']:
             data, target = data.cuda(), target.cuda()
@@ -96,6 +100,8 @@ def train(epoch):
             print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
                 epoch, batch_idx * len(data), len(train_loader.dataset),
                 100. * batch_idx / len(train_loader), loss.data.item()))
+        final_loss = loss.data.item()
+    train_losses.append(final_loss)
 
 
 def test():
@@ -118,6 +124,7 @@ def test():
     test_loss /= len(test_loader.dataset)
     print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
         test_loss, correct, len(test_loader.dataset), 100. * correct / len(test_loader.dataset)))
+    test_losses.append(test_loss)
 
 
 model = Net()
@@ -129,3 +136,8 @@ optimizer = optim.SGD(model.parameters(), lr=args['lr'], momentum=args['momentum
 for _epoch in range(1, args['epochs'] + 1):
     train(_epoch)
     test()
+plt.plot(train_losses, label='Training loss')
+plt.plot(test_losses, label='Testing loss')
+plt.xticks([0, 1, 2], ["1", "2", "3"])
+plt.legend()
+plt.show()
