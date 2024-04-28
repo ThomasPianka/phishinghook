@@ -139,5 +139,8 @@ for _epoch in range(1, args['epochs'] + 1):
 plt.plot(train_losses, label='Training loss')
 plt.plot(test_losses, label='Testing loss')
 plt.xticks([0, 1, 2], ["1", "2", "3"])
+plt.xlabel("Epochs")
+plt.ylabel("Loss")
+plt.title("Loss Plot for Simple DNN")
 plt.legend()
 plt.show()
