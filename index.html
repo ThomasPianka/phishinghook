@@ -70,10 +70,10 @@
         activation function after the input layer and the hidden layer. The loss was calculated using binary cross
         entropy (BCE) with logits, and the predicted label was determined using binary classification.</p>
 
-      <p>Our second model was an LSTM classifier that used a deep learning architecture to classify URLs. The dataset's
-        textual features were tokenized and converted into sequences. These sequences were then padded to ensure uniform
-        length, enabling effective model training. The LSTM model was compiled with the BCE loss function, Adam
-        optimizer, and was trained with a batch size of 128 for 10 epochs.</p>
+      <p>Our second model consists of an embedding layer converting token sequences into fixed-size dense vectors,
+        followed by an LSTM layer capturing sequential patterns, and a dense layer using sigmoid activation for binary
+        classification. The LSTM model was compiled with the BCE loss function, Adam optimizer, and was trained with a
+        batch size of 128 for 10 epochs.</p>
 
       <p>For the following three models, we chose the mutual information (MI) feature selection approach to identify the
         20 most informative features for classification. We used a basic deep neural network with ReLU for the
@@ -82,9 +82,10 @@
 
       <p>Our next model combined CNN & LSTM layers for classification. The MI feature set was used as an input to the
         model, which begins with an embedding layer followed by a 1D convolutional layer and max-pooling layer. The
-        output was then passed through an LSTM layer followed by dense layers for classification.</p>
+        output was then passed through an LSTM layer for sequence modeling, followed by dense layers for classification.
+      </p>
 
-      <p>For our final model, we used a simple RNN for classification. The architecture is identical to the previous
+      <p>For our final model, we used a simple RNN for classification. The architecture was identical to the previous
         model, with the exception of the LSTM layer being replaced by a simple RNN layer.</p>
 
 
@@ -137,7 +138,7 @@
 
       <p>The impressive results from the simpler first two models go to show that the dataset’s features are meaningful
         and impactful in determining a website’s legitimacy.</p>
-      
+
       <img src="images/SimpleDNN_Loss.png" class="center-img">
       <div class="row">
         <div class="column">
